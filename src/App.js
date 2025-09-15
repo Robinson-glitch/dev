@@ -7,7 +7,7 @@ import './App.css';
 
 function App() {
 
-const[countries,Setcountries]=useState([]);
+const[countries,setCountries]=useState([]);
 const[states, Setstates]=useState([]);
 const[cities, Setcities]=useState([]);
 const[selectedCountry,setSelectedCountry]=useState("");
@@ -20,58 +20,64 @@ fetchCountries();
 
 },[])
 
- const fetchCountries=()=>{
+ const fetchCountries=async()=>{
 
-  axios.get("https://crio-location-selector.onrender.com/countries").then((response)=>{
-
-    Setcountries(response.data);
-    console.log(response.data);
-
-  }).catch((error)=>{
-
-    console.log(`Error fetching data:${error}`);
-  });
+  try {
+      const response = await axios.get("https://crio-location-selector.onrender.com/countries");
+      setCountries(response.data);
+    } catch (error) {
+      console.error(`Error fetching countries: ${error}`);
+    }
   }
   
   const handleSelectCountry=(event)=>{
-    
-    setSelectedCountry(event.target.value)
-    fetchStates(event.target.value);
+    const selectedcountry=event.target.value;
+    setSelectedCountry(selectedcountry)
+    setSelectedState("");
+    setSelectedCity("");
+    Setcities([]);
+    Setstates([]);
+
+    if(selectedcountry){
+    fetchStates(selectedcountry);
+    }
   }
 
    const handleSelectState=(event)=>{
-    const SelectedState=event.target.value;
-    setSelectedState(event.target.value)
-    fetchCities(selectedCountry,SelectedState);
+    const selectedState=event.target.value;
+    setSelectedState(selectedState);
+    setSelectedCity("");
+    Setcities([]);
+    if(selectedState){
+    fetchCities(selectedCountry,selectedState);
+    }
   }
 
    const handleSelectCity=(event)=>{
-    setSelectedCity(event.target.value)
+    const SelectedCity= event.target.value;
+    setSelectedCity(SelectedCity);
+    
 
   }
 
-  const fetchStates=(countryName)=>{
-  axios.get(`https://crio-location-selector.onrender.com/country=${countryName}/states`).then((response)=>{
-
-    Setstates(response.data);
-
-  }).catch((error)=>{
-
-    console.log(`Error fetching data:${error}`);
-  });
+  const fetchStates=async(countryName)=>{
+ 
+   try {
+      const response = await axios.get(`https://crio-location-selector.onrender.com/country=${countryName}/states`);
+      Setstates(response.data);
+    } catch (error) {
+      console.error(`Error fetching countries: ${error}`);
+    }
     
   }
 
-  const fetchCities=(countryName,stateName)=>{
-  axios.get(`https://crio-location-selector.onrender.com/country=${countryName}/state=${stateName}/cities`).then((response)=>{
-
-    Setcities(response.data);
-
-  }).catch((error)=>{
-
-    console.log(`Error fetching data:${error}`);
-  });
-    
+  const fetchCities=async(countryName,stateName)=>{
+   try {
+      const response = await axios.get(`https://crio-location-selector.onrender.com/country=${countryName}/state=${stateName}/cities`);
+      Setcities(response.data);
+    } catch (error) {
+      console.error(`Error fetching countries: ${error}`);
+    }
   }
 
   return (
