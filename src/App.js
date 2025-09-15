@@ -81,6 +81,7 @@ fetchCountries();
   }
 
   return (
+    <div>
     <div className="App" style={{display:"flex",gap:"10px"}}>
     <select  value={selectedCountry} onChange={handleSelectCountry}>
     <option value="">Select Country</option>
@@ -100,6 +101,8 @@ fetchCountries();
 <option key={city} value={city}>{city}</option>
     ))}
     </select>
+    </div>
+    <div>You selected {selectedCountry}, {selectedState}, {selectedCity}</div>
     </div>
   );
 }
