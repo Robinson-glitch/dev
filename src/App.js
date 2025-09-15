@@ -102,7 +102,7 @@ fetchCountries();
     ))}
     </select>
     </div>
-    <div>You selected {selectedCountry}, {selectedState}, {selectedCity}</div>
+    <div>You selected {selectedCity}, {selectedState}, {selectedCountry}</div>
     </div>
   );
 }
